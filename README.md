@@ -1,290 +1,201 @@
-# 📄 DocuMind — AI-Powered PDF Chat Assistant
+# PagePilot: AI-Powered PDF Chat Assistant
 
-> A Retrieval-Augmented Generation (RAG) application that enables users to upload PDF documents and interact with them using natural language. Built with **LangChain**, **ChromaDB**, **Mistral AI**, and **Streamlit**.
+Upload a PDF and ask questions about it in plain English. PagePilot finds the relevant passages in your document and uses them to generate an answer, instead of relying only on the language model's general knowledge.
 
----
-
-## 🚀 Overview
-
-DocuMind leverages Retrieval-Augmented Generation (RAG) to provide context-aware answers directly from uploaded PDF documents. Instead of relying on the language model's internal knowledge, the application retrieves the most relevant document chunks using semantic search and generates accurate responses grounded in the document.
-
-This project demonstrates a complete end-to-end RAG pipeline including document ingestion, chunking, vector embeddings, semantic retrieval, and LLM-powered response generation.
+Built with **LangChain**, **ChromaDB**, **Mistral AI** and **Streamlit**.
 
 ---
 
-## ✨ Features
+## Overview
 
-- 📤 Upload any PDF document
-- 💬 Ask questions in natural language
-- 🧠 Retrieval-Augmented Generation (RAG)
-- 🔍 Semantic search using Mistral Embeddings
-- 📚 Automatic document chunking
-- ⚡ Max Marginal Relevance (MMR) retrieval
-- 💾 Chroma Vector Database
-- 🤖 Mistral Large Language Model
-- 🌐 Clean Streamlit Web Interface
-- 🔄 Dynamic vector database creation on upload
+PagePilot is a Retrieval-Augmented Generation (RAG) application. When a PDF is uploaded, it is split into chunks, converted into vector embeddings and stored in a Chroma vector database. When you ask a question, the most relevant chunks are retrieved and passed to the language model, which writes an answer based on that context.
+
+The project covers the full RAG pipeline: document loading, chunking, embeddings, vector storage, retrieval, prompting and response generation, with a simple web interface on top.
 
 ---
 
-# 🏗️ Architecture
+## Features
+
+- Upload a PDF and ask questions in natural language
+- Answers generated from the retrieved parts of your document
+- Semantic search using Mistral embeddings
+- Automatic splitting of documents into overlapping chunks
+- Max Marginal Relevance (MMR) retrieval, which returns relevant and varied passages
+- Chroma vector store created automatically for each uploaded document
+- Clean, simple Streamlit interface
+
+---
+
+## Architecture
 
 ```text
-                 ┌────────────────────┐
-                 │     Upload PDF     │
-                 └──────────┬─────────┘
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │    PDF Loader      │
-                 │    (PyPDFLoader)   │
-                 └──────────┬─────────┘
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │ Document Chunking  │
-                 │ Recursive Splitter │
-                 └──────────┬─────────┘
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │ Mistral Embeddings │
-                 └──────────┬─────────┘
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │     ChromaDB       │
-                 │   Vector Store     │
-                 └──────────┬─────────┘
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │   MMR Retriever    │
-                 └──────────┬─────────┘
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │   Prompt Template  │
-                 └──────────┬─────────┘
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │  Mistral Chat LLM  │
-                 └──────────┬─────────┘
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │   AI Response      │
-                 └────────────────────┘
+Upload PDF
+    |
+    v
+PDF loader (PyPDFLoader)
+    |
+    v
+Chunking (RecursiveCharacterTextSplitter)
+    |
+    v
+Embeddings (Mistral)
+    |
+    v
+Vector store (ChromaDB)
+    |
+    v
+MMR retriever  <---  User question
+    |
+    v
+Prompt template (question + retrieved context)
+    |
+    v
+Mistral chat model
+    |
+    v
+Answer
 ```
 
 ---
 
-# 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Technology |
-|-----------|------------|
+|----------|------------|
 | Language | Python |
-| LLM | Mistral AI |
-| Framework | LangChain |
-| Vector Database | ChromaDB |
-| Embedding Model | Mistral Embeddings |
-| UI | Streamlit |
-| PDF Loader | PyPDFLoader |
+| LLM and embeddings | Mistral AI |
+| Orchestration | LangChain |
+| Vector database | ChromaDB |
+| Interface | Streamlit |
+| PDF loading | PyPDFLoader |
 | Chunking | RecursiveCharacterTextSplitter |
 
 ---
 
-# 📂 Project Structure
+## Project Structure
 
 ```text
-DocuMind/
-│
-├── app.py                     # Streamlit Application
-├── create_database.py         # Build Vector Database
-├── document_loaders/
-│   └── sample.pdf
-│
-├── requirements.txt
-├── .env.example
+PagePilot/
+├── ui.py                  # Streamlit app (run this)
+├── create_database.py     # Builds the vector database from a PDF
+├── requirements.txt       # Python dependencies
+├── .env.example           # Template for environment variables
 ├── .gitignore
+├── LICENSE
 ├── README.md
-└── images/
-    └── demo.png
+└── screenshots/           # Images used in this README
 ```
 
 ---
 
-# ⚙️ Installation
+## Getting Started
 
-## Clone the Repository
+### Prerequisites
+
+- Python 3.9 or newer
+- A Mistral AI API key (from the Mistral console)
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/DocuMind.git
-cd DocuMind
+git clone https://github.com/Abhi5hekkumar/PagePilot.git
+cd PagePilot
 ```
 
-## Create a Virtual Environment
+### 2. Create and activate a virtual environment
 
 ```bash
 python -m venv .venv
 ```
 
-### Windows
+Windows:
 
 ```bash
 .venv\Scripts\activate
 ```
 
-### macOS / Linux
+macOS / Linux:
 
 ```bash
 source .venv/bin/activate
 ```
 
----
-
-## Install Dependencies
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### 4. Set up your API key
 
-## Configure Environment Variables
-
-Create a `.env` file.
+Copy `.env.example` to `.env` and add your key:
 
 ```env
 MISTRAL_API_KEY=your_api_key_here
 ```
 
----
+Never commit your real `.env` file.
 
-## Run the Application
+### 5. Run the app
 
 ```bash
-streamlit run app.py
+streamlit run ui.py
 ```
 
-Open your browser and visit
-
-```
-http://localhost:8501
-```
+Then open http://localhost:8501 in your browser.
 
 ---
 
-# 🔍 How It Works
+## How It Works
 
-### 1. Upload PDF
-
-The user uploads a PDF through the Streamlit interface.
-
-↓
-
-### 2. Document Processing
-
-The PDF is parsed using **PyPDFLoader**.
-
-↓
-
-### 3. Chunking
-
-The document is divided into overlapping chunks using **RecursiveCharacterTextSplitter**.
-
-↓
-
-### 4. Embedding Generation
-
-Each chunk is converted into dense vector embeddings using **Mistral Embeddings**.
-
-↓
-
-### 5. Vector Storage
-
-Embeddings are stored inside **ChromaDB**.
-
-↓
-
-### 6. Semantic Retrieval
-
-When the user asks a question, the retriever performs **MMR similarity search** to find the most relevant chunks.
-
-↓
-
-### 7. Response Generation
-
-Retrieved context and the user's query are sent to **Mistral AI**, which generates the final grounded response.
+1. **Upload:** the user uploads a PDF in the Streamlit interface.
+2. **Load:** the PDF text is extracted with PyPDFLoader.
+3. **Chunk:** the text is split into overlapping chunks with RecursiveCharacterTextSplitter.
+4. **Embed:** each chunk is converted into a vector with Mistral embeddings.
+5. **Store:** the vectors are saved in ChromaDB.
+6. **Retrieve:** for each question, an MMR search selects the most relevant and diverse chunks.
+7. **Generate:** the question and the retrieved context are sent to the Mistral chat model, which writes the answer.
 
 ---
 
-# 📸 Demo
+## Screenshots
 
-> Add screenshots of your application here.
-
-```
-images/
-    demo.png
-```
-
-Example:
-
-![Demo](images/demo.png)
+![PagePilot interface](screenshots/demo.png)
 
 ---
 
-# 🚀 Future Improvements
+## Limitations
 
-- Multiple PDF support
-- Persistent Vector Database
+- Works with PDFs that contain selectable text. Scanned PDFs and images of pages are not supported yet (this needs OCR).
+- Handles one document at a time.
+- Answer quality depends on how well the retrieval step finds the right passages.
+- Requires a Mistral API key and an internet connection.
+
+---
+
+## Roadmap
+
+- Support for multiple PDFs and cross-document questions
+- Other formats: Word documents, text files and e-books
+- Questions from images of pages, using OCR
 - Source citations with page numbers
-- Streaming responses
-- Conversation memory
-- Hybrid Search (BM25 + Vector Search)
-- Cross-document querying
-- Authentication
-- Docker deployment
-- Cloud deployment (AWS / Azure / GCP)
+- Conversation memory and streaming responses
+- Persistent vector database across sessions
+- Hybrid search (keyword + vector)
+- Docker and cloud deployment
 
 ---
 
-# 📊 Learning Outcomes
+## License
 
-This project demonstrates practical experience with:
-
-- Retrieval-Augmented Generation (RAG)
-- Semantic Search
-- Vector Databases
-- Prompt Engineering
-- Large Language Models
-- Embedding Models
-- LangChain Pipelines
-- Streamlit Application Development
-- Information Retrieval
+Released under the [MIT License](LICENSE).
 
 ---
 
-# 🤝 Contributing
-
-Contributions, feature requests, and suggestions are welcome.
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Open a Pull Request
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-## 👨‍💻 Author
+## Author
 
 **Abhishek Kumar**
 
-If you found this project useful, consider giving it a ⭐ on GitHub!
+- GitHub: [Abhi5hekkumar](https://github.com/Abhi5hekkumar)
+- LinkedIn: [Abhishek Kumar](https://www.linkedin.com/in/abhishek-kumar-94888b276)
+- Email: kumarabhishek8749@gmail.com
