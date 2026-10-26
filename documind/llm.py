@@ -10,7 +10,7 @@ def get_llm(provider="ollama", model="llama3.2", api_key=None):
         key = api_key or os.getenv("GROQ_API_KEY")
         if not key:
             raise ValueError("Enter a Groq API key in the sidebar or configure GROQ_API_KEY in your deployment secrets.")
-        return ChatGroq(model=model or os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"), temperature=0, api_key=key)
+        return ChatGroq(model=model or os.getenv("GROQ_MODEL", "openai/gpt-oss-20b"), temperature=0, api_key=key)
     raise ValueError("Unsupported provider. Choose ollama or groq.")
 
 def generate_text(llm, prompt):
