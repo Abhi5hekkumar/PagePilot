@@ -1,95 +1,18 @@
-# ==========================
-# LangChain
-# ==========================
-langchain
-langchain-core
-langchain-community
-langchain-openai
-langchain-mistralai
-langchain-text-splitters
-langchain-chroma
-langchain-huggingface
-
-# ==========================
-# Vector Database
-# ==========================
-chromadb
-
-# ==========================
-# Embedding Models
-# ==========================
-sentence-transformers
-
-# ==========================
-# OpenAI
-# ==========================
-openai
-
-# ==========================
-# Mistral AI
-# ==========================
-mistralai
-
-# ==========================
-# Environment Variables
-# ==========================
-python-dotenv
-
-# ==========================
-# Token Counting
-# ==========================
-tiktoken
-
-# ==========================
-# Document Loaders
-# ==========================
-pypdf
-pymupdf
-python-docx
-unstructured
-markdown
-beautifulsoup4
-lxml
-
-# ==========================
-# OCR (Optional)
-# ==========================
-pytesseract
-Pillow
-
-# ==========================
-# Web Scraping
-# ==========================
-requests
-
-# ==========================
-# FastAPI (API)
-# ==========================
-fastapi
-uvicorn
-
-# ==========================
-# Streamlit (Frontend)
-# ==========================
-streamlit
-
-# ==========================
-# Utilities
-# ==========================
-numpy
-pandas
-
-# ==========================
-# Logging & Progress
-# ==========================
-tqdm
-
-# ==========================
-# Optional Monitoring
-# ==========================
-langsmith
-
-# ==========================
-# SQLite compatibility
-# ==========================
-pysqlite3-binary
+streamlit>=1.39,<2
+python-dotenv>=1.0
+langchain-core>=0.3
+langchain-community>=0.3
+langchain-text-splitters>=0.3
+langchain-chroma>=0.2
+langchain-huggingface>=0.1
+langchain-ollama>=0.2
+sentence-transformers>=3
+chromadb>=0.5
+pypdf>=5
+python-docx>=1.1
+EbookLib>=0.18
+beautifulsoup4>=4.12
+Pillow>=10
+pytesseract>=0.3.13
+PyMuPDF>=1.24
+langchain-groq>=0.2
