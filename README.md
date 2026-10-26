@@ -1,201 +1,85 @@
-# PagePilot: AI-Powered PDF Chat Assistant
+# PagePilot
 
-Upload a PDF and ask questions about it in plain English. PagePilot finds the relevant passages in your document and uses them to generate an answer, instead of relying only on the language model's general knowledge.
+**Your documents, understood.**
 
-Built with **LangChain**, **ChromaDB**, **Mistral AI** and **Streamlit**.
-
----
-
-## Overview
-
-PagePilot is a Retrieval-Augmented Generation (RAG) application. When a PDF is uploaded, it is split into chunks, converted into vector embeddings and stored in a Chroma vector database. When you ask a question, the most relevant chunks are retrieved and passed to the language model, which writes an answer based on that context.
-
-The project covers the full RAG pipeline: document loading, chunking, embeddings, vector storage, retrieval, prompting and response generation, with a simple web interface on top.
-
----
+PagePilot is an AI-powered document intelligence application that helps users explore documents, ask questions, generate summaries, and understand content across languages.
 
 ## Features
 
-- Upload a PDF and ask questions in natural language
-- Answers generated from the retrieved parts of your document
-- Semantic search using Mistral embeddings
-- Automatic splitting of documents into overlapping chunks
-- Max Marginal Relevance (MMR) retrieval, which returns relevant and varied passages
-- Chroma vector store created automatically for each uploaded document
-- Clean, simple Streamlit interface
+- **Document Q&A:** Ask questions about uploaded documents.
+- **Smart summaries:** Generate concise overviews and structured summaries.
+- **Multilingual responses:** Request answers and summaries in supported languages.
+- **Document support:** Work with PDFs, Word documents, text, Markdown, EPUB books, and supported images.
+- **Source-aware answers:** Inspect relevant passages used to answer questions.
+- **Flexible AI providers:** Use Ollama for local inference or a supported cloud provider.
 
----
+## Technology Stack
 
-## Architecture
+- Python
+- Streamlit
+- LangChain
+- Chroma vector database
+- Sentence Transformers
+- Ollama and optional Groq integration
+- Tesseract OCR for supported scanned documents and images
 
-```text
-Upload PDF
-    |
-    v
-PDF loader (PyPDFLoader)
-    |
-    v
-Chunking (RecursiveCharacterTextSplitter)
-    |
-    v
-Embeddings (Mistral)
-    |
-    v
-Vector store (ChromaDB)
-    |
-    v
-MMR retriever  <---  User question
-    |
-    v
-Prompt template (question + retrieved context)
-    |
-    v
-Mistral chat model
-    |
-    v
-Answer
-```
-
----
-
-## Tech Stack
-
-| Category | Technology |
-|----------|------------|
-| Language | Python |
-| LLM and embeddings | Mistral AI |
-| Orchestration | LangChain |
-| Vector database | ChromaDB |
-| Interface | Streamlit |
-| PDF loading | PyPDFLoader |
-| Chunking | RecursiveCharacterTextSplitter |
-
----
-
-## Project Structure
-
-```text
-PagePilot/
-├── ui.py                  # Streamlit app (run this)
-├── create_database.py     # Builds the vector database from a PDF
-├── requirements.txt       # Python dependencies
-├── .env.example           # Template for environment variables
-├── .gitignore
-├── LICENSE
-├── README.md
-└── screenshots/           # Images used in this README
-```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Python 3.9 or newer
-- A Mistral AI API key (from the Mistral console)
+## Run Locally
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Abhi5hekkumar/PagePilot.git
-cd PagePilot
+git clone YOUR_GITHUB_REPOSITORY_URL
+cd pagepilot
 ```
 
-### 2. Create and activate a virtual environment
+Replace `YOUR_GITHUB_REPOSITORY_URL` with your repository's actual URL.
+
+### 2. Create a virtual environment
 
 ```bash
-python -m venv .venv
-```
-
-Windows:
-
-```bash
-.venv\Scripts\activate
-```
-
-macOS / Linux:
-
-```bash
+python3 -m venv .venv
 source .venv/bin/activate
 ```
 
 ### 3. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
-### 4. Set up your API key
-
-Copy `.env.example` to `.env` and add your key:
-
-```env
-MISTRAL_API_KEY=your_api_key_here
-```
-
-Never commit your real `.env` file.
-
-### 5. Run the app
+### 4. Start the application
 
 ```bash
-streamlit run ui.py
+streamlit run app.py
 ```
 
-Then open http://localhost:8501 in your browser.
+## AI Configuration
 
----
+PagePilot supports local AI through Ollama and can use a supported cloud AI provider when configured.
 
-## How It Works
+- **Ollama:** Install Ollama and download a compatible model.
+- **Cloud AI:** Configure the required API key through environment variables or your deployment platform's secrets settings.
 
-1. **Upload:** the user uploads a PDF in the Streamlit interface.
-2. **Load:** the PDF text is extracted with PyPDFLoader.
-3. **Chunk:** the text is split into overlapping chunks with RecursiveCharacterTextSplitter.
-4. **Embed:** each chunk is converted into a vector with Mistral embeddings.
-5. **Store:** the vectors are saved in ChromaDB.
-6. **Retrieve:** for each question, an MMR search selects the most relevant and diverse chunks.
-7. **Generate:** the question and the retrieved context are sent to the Mistral chat model, which writes the answer.
+Never commit API keys, passwords, or private documents to GitHub.
 
----
+## Deployment
 
-## Screenshots
+PagePilot is designed for deployment on Streamlit Community Cloud or another compatible hosting platform.
 
-![PagePilot interface](screenshots/demo.png)
+Deployment requires a public GitHub repository, a valid application entry point, compatible dependencies, and appropriate AI-provider configuration.
 
----
+Free hosting and AI services may have resource limits, rate limits, or usage restrictions. Local Ollama models running on a developer's computer are not automatically accessible to a publicly hosted application.
 
-## Limitations
+## Security and Privacy
 
-- Works with PDFs that contain selectable text. Scanned PDFs and images of pages are not supported yet (this needs OCR).
-- Handles one document at a time.
-- Answer quality depends on how well the retrieval step finds the right passages.
-- Requires a Mistral API key and an internet connection.
+- Do not commit `.env` files or API credentials.
+- Avoid uploading confidential or sensitive documents to services without reviewing their privacy policies.
+- Configure appropriate limits before making the application publicly accessible.
 
----
+## Project Status
 
-## Roadmap
-
-- Support for multiple PDFs and cross-document questions
-- Other formats: Word documents, text files and e-books
-- Questions from images of pages, using OCR
-- Source citations with page numbers
-- Conversation memory and streaming responses
-- Persistent vector database across sessions
-- Hybrid search (keyword + vector)
-- Docker and cloud deployment
-
----
+PagePilot is an evolving project. Features and deployment compatibility should be tested before relying on the application for important documents or production workloads.
 
 ## License
 
-Released under the [MIT License](LICENSE).
-
----
-
-## Author
-
-**Abhishek Kumar**
-
-- GitHub: [Abhi5hekkumar](https://github.com/Abhi5hekkumar)
-- LinkedIn: [Abhishek Kumar](https://www.linkedin.com/in/abhishek-kumar-94888b276)
-- Email: kumarabhishek8749@gmail.com
+See the `LICENSE` file for the applicable license terms.
